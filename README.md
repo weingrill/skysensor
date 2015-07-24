@@ -1,11 +1,12 @@
 
- LIGHTMETER USB READOUT version 4.1 (21.5.2009)
+# LIGHTMETER USB READOUT version 4.1 (21.5.2009)
+
  free software under GPL (based on fsusb_demo for HIDs attached
  to the Microchip PICDEM FS USB Demo board)
 
 This software is distributed in the hope that it will be useful, but
-WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+**WITHOUT ANY WARRANTY**; without even the implied warranty of
+**MERCHANTABILITY** or **FITNESS FOR A PARTICULAR PURPOSE**.  See the GNU
 General Public License for more details.
 
  requires libusb
@@ -17,8 +18,8 @@ General Public License for more details.
  but it us rather strictly ANSI C and thus should work
  with alls distributions providing libusb.
 
- S. Kimeswenger, University Innsbruck, Austria
- Institute of Astro- and Particle Physics
+*S. Kimeswenger, University Innsbruck, Austria
+ Institute of Astro- and Particle Physics*
 
  version 4.1
  changes: 
@@ -33,47 +34,61 @@ General Public License for more details.
 
 
 --------------------------------------------------------------------
-INSTALL
+## INSTALL
 
 1)
 Installation of additional library: libusb
 Fedora:
-	yum install libusb
+```
+yum install libusb
+```
 Ubuntu & Debian:
-	apt-get install libusb
+```
+apt-get install libusb
+```
 
 2)
 change to destination directory e.g.:
-    cd /usr/local
+```
+cd /usr/local
+```
 unpack source and compile it
-    unzip LinuxLight.zip
-    cd LightmeterLinux
-    make
+```
+unzip LinuxLight.zip
+cd LightmeterLinux
+make
+```
 
 3)
 change to user root or do setup with sudo:
     Fedora:
-       su root
-       make setup
+```
+su root
+make setup
+```
     Ubuntu & Debian:
-       sudo make setup
-
+```
+sudo make setup
+```
 --------------------------------------------------------------------
-RUNNING:
+## RUNNING:
 
-     lightmeter_usb [sampling]
-         the (optional) parameter sets the intervals between
-         readouts in seconds (default = 1 second)
+```
+lightmeter_usb [sampling]
+```
+*the (optional) parameter sets the intervals between readouts in seconds (default = 1 second)*
 
 The program writes to the terminal/screen stdout
 With e.g.
-    lightmeter_usb 5 > Light_`date +%Y_%m_%d_%H_%M`.dat &
+```
+lightmeter_usb 5 > Light_`date +%Y_%m_%d_%H_%M`.dat &
+```
 it will write every 5 seconds to a file with the starting date in the
 name: Light_YYYY_MM_DD_hh_mm.dat
 
 ----------------------------------------------------------------------
 
-AUTOMATIC RUNNING:
+## AUTOMATIC RUNNING:
 
 I have a cron jobs setup to rotate the logfiles every 24 hours
 (@ noon) and send those files to my web server. For the automated copy
@@ -85,6 +100,7 @@ I am using script "start_lightmeter" to start it after reboot and the
 command line /home/stefan/start_lightmeter in the file /etc/rc.local
 (Ubuntu and Debian) or /etc/rc5.d/S99local (Fedora)
 
+```
 #!/bin/csh
 cd /home/stefan
 if (-e /home/stefan/data.txt) gzip /home/stefan/data.txt
@@ -93,18 +109,20 @@ if (-e /home/stefan/data.txt.gz) \
    stefan@ast7.uibk.ac.at:public_html/LIGHT/light_ibk_60cm_`date +%Y_%m_%d_%H_%M`dat.gz
 rm -f data.txt.gz
 nohup /home/stefan/lightmeter_usb > /home/stefan/data.txt &
-
+```
 B)
 The crontab file has an entry:
-
+```
 # exchange the measurement always at noon
 # m h dom mon dow user	command
 00 12 * * *	/home/stefan/rotate_log
+```
 
 and a script "rotate_log" for rotation of the logfiles (here Ubuntu /
 Debian version - fedora user have to run / add it to the system-wide
 crontab and may remove the section: echo 'MY_USER_PASSWORD' | sudo -S kill
 
+```
 #!/bin/csh
 cd /home/stefan
 # stop the current measurement
@@ -117,3 +135,4 @@ if (-e /home/stefan/data.txt.gz) \
 rm -f data.txt.gz
 # start a new one
 nohup /home/stefan/lightmeter_usb > /home/stefan/data.txt &
+```
