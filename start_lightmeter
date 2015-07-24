@@ -1,0 +1,8 @@
+#!/bin/csh
+cd /home/stefan
+if (-e /home/stefan/data.txt) gzip /home/stefan/data.txt
+if (-e /home/stefan/data.txt.gz) \
+   scp -q data.txt.gz \
+   stefan@ast7.uibk.ac.at:public_html/LIGHT/light_ibk_60cm_`date +%Y_%m_%d_%H_%M`.dat.gz
+rm -f data.txt.gz
+nohup /home/stefan/lightmeter_usb > /home/stefan/data.txt &
